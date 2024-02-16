@@ -16,17 +16,19 @@ export function createGame() {
 
   const observers = []
 
+  function subscribe(observerFunction) {
+    observers.push(observerFunction)
+  }
+
+  function unsubscribe(observerFunction){
+    state.observers = state.observers.filter(obs => obs !== observerFunction);
+  }
+
   function start(){
     const frequency = 2000;
 
     setInterval(addFruit, frequency)
   }
-
-  function subscribe(observerFunction) {
-    observers.push(observerFunction)
-  }
-
-
 
   function notifyAll(command) {
     console.log(`Notifying ${observers.length} observers!`);
@@ -166,6 +168,7 @@ export function createGame() {
     state,
     subscribe,
     start,
-    changeScreenSize
+    changeScreenSize,
+    unsubscribe
   }
 }

@@ -17,12 +17,12 @@ game.subscribe((command) => {
   socket.emit(command.type, command);
 })
 
-socket.on("connection", (socket) => {
-  console.log("> PLayer Connected: ", socket.id);
 
+
+socket.on("connection", (socket) => {
+  console.log("> Player Connected: ", socket.id);
 
   const playerId = socket.id;
-
 
   game.changeScreenSize({ width: 20, height: 20})
   game.start()
@@ -31,16 +31,16 @@ socket.on("connection", (socket) => {
 
   socket.emit('setup', game.state)
 
-  socket.on("disconnect", () => {
-    game.removePlayer({ playerId })
-    console.log('> Player disconnected: ', playerId)
-  });
-
   socket.on('move-player', (command) => {
     command.playerId = playerId;
     command.type = 'move-player';
     game.movePlayer(command)
   })
+
+  socket.on("disconnect", () => {
+    game.removePlayer({ playerId });
+    console.log('> Player disconnected: ', playerId)
+  });
 })
 
 

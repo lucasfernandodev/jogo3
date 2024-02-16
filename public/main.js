@@ -5,9 +5,10 @@ const socket = io();
 
 
 const game = createGame()
-
 const keyboardListener = createKeyboardListener(document)
-
+const notifyNetworkingWithPlayerMove = (command) => {
+  socket.emit("move-player", command)
+}
 
 socket.on('connect', () => {
   const playerId = socket.id;
@@ -22,12 +23,15 @@ socket.on('setup', (state) => {
   game.setState(state);
   keyboardListener.registrePlayerId(playerId)
   keyboardListener.subscribe(game.movePlayer)
-  keyboardListener.subscribe((command) => {
-    socket.emit("move-player", command)
-  })
+  keyboardListener.subscribe(notifyNetworkingWithPlayerMove)
 })
 
 
+
+socket.on('disconnect', () => {
+  keyboardListener.unsubscribe(game.movePlayer)
+  keyboardListener.unsubscribe(notifyNetworkingWithPlayerMove)
+})
 
 
 socket.on('add-player', (command) => {

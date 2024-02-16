@@ -4,8 +4,6 @@ export function renderScreen(screen, game, requestAnimationFrame, currentPlayerI
   screen.width = game.state.screen.width;
   screen.height = game.state.screen.height;
 
-  console.log("width", game.state.screen.width)
-
   const context = screen.getContext('2d');
   context.fillStyle = "white";
   context.clearRect(0, 0, screen.width, screen.height);
