@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo multiplayer</title>
+  <style>
+    body {
+      background: #121212;
+    }
+
+    canvas {
+      outline: 1px solid #ccc;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      image-rendering: -moz-crisp-edges;
+      width: 400px;
+      height: 400px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="screen" width="10px" height="10px"></canvas>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="./main.js">
+</script>
+
+</html>
