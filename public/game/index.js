@@ -26,11 +26,24 @@ export function createGame() {
     observers.push(observerFunction)
   }
 
+
+
   function notifyAll(command) {
     console.log(`Notifying ${observers.length} observers!`);
     for (const observerFunction of observers) {
       observerFunction(command)
     }
+  }
+
+  function changeScreenSize(newScreenValues){
+    state.screen.width = newScreenValues.width;
+    state.screen.height = newScreenValues.height;
+
+    notifyAll({
+      type: 'change-screen',
+      width: state.screen.width,
+      height: state.screen.height,
+    })
   }
 
   function addPlayer(command) {
@@ -152,6 +165,7 @@ export function createGame() {
     movePlayer,
     state,
     subscribe,
-    start
+    start,
+    changeScreenSize
   }
 }

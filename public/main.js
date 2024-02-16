@@ -27,6 +27,9 @@ socket.on('setup', (state) => {
   })
 })
 
+
+
+
 socket.on('add-player', (command) => {
   console.log(`Receiving ${command.type} -> ${command.playerId}`);
   game.addPlayer(command)
@@ -57,6 +60,10 @@ socket.on('remove-fruit', (command) => {
   game.removeFruit(command)
 })
 
+socket.on('change-screen', (command) => {
+  console.log(`Resizing screen for ${command.width}x${command.height}`);
+  game.changeScreenSize(command)
+})
 
 
 

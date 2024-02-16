@@ -1,6 +1,6 @@
 import express from 'express';
 import http from 'node:http';
-import {createGame} from './public/game/index.js'
+import { createGame } from './public/game/index.js'
 import { Server } from 'socket.io';
 
 const app = express();
@@ -17,18 +17,22 @@ game.subscribe((command) => {
   socket.emit(command.type, command);
 })
 
-game.start()
-
 socket.on("connection", (socket) => {
-  const playerId = socket.id;
-  console.log("> PLayer Connected: ", playerId)
+  console.log("> PLayer Connected: ", socket.id);
 
-  game.addPlayer({playerId})
+
+  const playerId = socket.id;
+
+
+  game.changeScreenSize({ width: 20, height: 20})
+  game.start()
+
+  game.addPlayer({ playerId })
 
   socket.emit('setup', game.state)
 
   socket.on("disconnect", () => {
-    game.removePlayer({playerId})
+    game.removePlayer({ playerId })
     console.log('> Player disconnected: ', playerId)
   });
 
