@@ -1,0 +1,26 @@
+*{
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+body{
+  background: #121212;
+  width: 100%;
+  height: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+canvas {
+  outline: 1px solid #212121;
+  box-shadow: 12px 24px 48px rgba(0, 0, 0, 0.3);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  width: min(400px, calc(100vw - 32px));
+  height: min(400px, calc(100vh - 32px));
+  min-width: 320px;
+  min-height: 320px;
+}
