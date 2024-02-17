@@ -69,7 +69,37 @@ socket.on('change-screen', (command) => {
   game.changeScreenSize(command)
 })
 
+function updatePointerTable(document, game){
+  const tableBody = document.querySelector(".table-pointers tbody");
+  const topPointers = []
 
+  tableBody.innerHTML = '';
+
+  for(const playerId in game.state.players){
+    topPointers.push([playerId, game.state.players[playerId].pointer])
+  }
+
+
+  topPointers.sort((a,b) =>  b[1] - a[1])
+
+  for(const [playerId, pointer] of topPointers.slice(0,9)){
+
+    const tablePlayerName = document.createElement("td")
+    const tablePlayerPointer = document.createElement("td")
+  
+    tablePlayerName.innerText = playerId;
+    tablePlayerPointer.innerText = pointer;
+  
+    const tableRow = document.createElement('tr');
+    tableRow.append(tablePlayerName, tablePlayerPointer);
+    tableBody.appendChild(tableRow)
+  }
+
+}
+
+socket.on('update-pointer', () => {
+  updatePointerTable(document,game)
+})
 
 
 

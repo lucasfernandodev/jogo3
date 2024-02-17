@@ -10,8 +10,8 @@ export function createGame() {
     }
   }
 
-  function setState(newState){
-    Object.assign(state,newState)
+  function setState(newState) {
+    Object.assign(state, newState)
   }
 
   const observers = []
@@ -20,12 +20,12 @@ export function createGame() {
     observers.push(observerFunction)
   }
 
-  function unsubscribe(observerFunction){
+  function unsubscribe(observerFunction) {
     state.observers = state.observers.filter(obs => obs !== observerFunction);
   }
 
-  function start(){
-    const frequency = 2000;
+  function start() {
+    const frequency = 3000;
 
     setInterval(addFruit, frequency)
   }
@@ -37,7 +37,7 @@ export function createGame() {
     }
   }
 
-  function changeScreenSize(newScreenValues){
+  function changeScreenSize(newScreenValues) {
     state.screen.width = newScreenValues.width;
     state.screen.height = newScreenValues.height;
 
@@ -55,7 +55,8 @@ export function createGame() {
 
     state.players[playerId] = {
       x: playerX,
-      y: playerY
+      y: playerY,
+      pointer: 0,
     }
 
     notifyAll({
@@ -106,9 +107,20 @@ export function createGame() {
   }
 
 
+  function addPointer(command) {
+    const player = state.players[command.playerId]
+    player.pointer = player.pointer + 1;
+
+    notifyAll({
+      type: 'update-pointer',
+      pointer: player.pointer,
+    })
+  }
+
+
   function movePlayer(command) {
     notifyAll(command)
-     
+
     const acceptedMoves = {
       ArrowUp(player) {
         if (player.y - 1 >= 0) {
@@ -143,17 +155,18 @@ export function createGame() {
     }
   }
 
-  function checkForFruitCollision(playerId){
-    const player =  state.players[playerId];
+  function checkForFruitCollision(playerId) {
+    const player = state.players[playerId];
 
-    for(const fruitId in state.fruits){
+    for (const fruitId in state.fruits) {
       const fruit = state.fruits[fruitId];
-      console.log(`Checking ${playerId} and ${fruit}`);
+      console.log(`Checking ${playerId} and ${fruitId}`);
 
-      if(player.x === fruit.x && player.y === fruit.y){
+      if (player.x === fruit.x && player.y === fruit.y) {
         console.log(`Collision between ${playerId} and ${fruitId}`);
 
-        removeFruit({fruitId});
+        addPointer({ playerId: playerId })
+        removeFruit({ fruitId });
       }
     }
   }

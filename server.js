@@ -9,7 +9,6 @@ const socket = new Server(server);
 
 app.use(express.static('public'));
 
-
 const game = createGame()
 
 game.subscribe((command) => {
